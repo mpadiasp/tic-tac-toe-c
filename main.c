@@ -17,16 +17,33 @@ char checkWinner();
 int main(){
 
     srand(time(0));
-    
+
+    char winner=' ';
 
     resetBoard();
     printBoard();
 
-    while(checkFreeSpaces()>0){
+    while(checkFreeSpaces()>0 && winner==' '){
+        
         playerMove();
-        if(checkFreeSpaces()<=0) break;
+        winner=checkWinner();
+
+        if(winner!=' ' || checkFreeSpaces()<=0) break;
         computermove();
-        printBoard();   
+        printBoard();
+        winner=checkWinner();  
+    }
+
+    printf("\n");
+    
+    if(winner=='X'){
+        printf("Congrats!\nYou won!!\n");
+    }
+    else if(winner=='O'){
+        printf("You lost!\n");
+    }
+    else{
+        printf("It's a Draw!\n");
     }
 }
 
@@ -142,19 +159,53 @@ void computermove(){
 
 char checkWinner(){
 
-    int i, j, found;
-    char move;
+    int i, j;
+    char current;
 
     for(i=0; i<size; i++){
-        
-        found=1;
-        move=board[i][0];
-        
-        if(move!=' '){
-            for(j=1; j<size-1; j++){
-                if 
-            }
-        }
+        for(j=0; j<size; j++){
 
+            current=board[i][j];
+
+            if(current!=' '){
+
+                if(j+2<size){
+                    
+                    if(board[i][j]==board[i][j+1] && board[i][j]==board[i][j+2]){
+                        return current;
+                    }
+
+                }
+                
+                if(i+2<size){
+                    
+                    if(board[i][j]==board[i+1][j] && board[i][j]==board[i+2][j]){
+                        return current;
+                    }
+
+                }
+
+                if(i+2<size && j+2<size){
+
+                    if(board[i][j]==board[i+1][j+1] && board[i][j]==board[i+2][j+2]){
+                        return current;
+                    }
+
+                }
+
+                if(i+2<size && j-2>=0){
+
+                    if(board[i][j]==board[i+1][j-1] && board[i][j]==board[i+2][j-2]){
+                        return current;
+                    }
+
+                }
+
+
+            }
+
+        }
     }
+
+    return ' ';  
 }
